@@ -1,7 +1,10 @@
 {
   "name": "kotlinapi",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.0.1",
+  "private": false,
+  "engines": {
+    "node": ">=7.x"
+  },
   "scripts": {
     "start": "node app.js"
   },
@@ -13,6 +16,7 @@
     "debug": "~2.6.9",
     "express": "~4.15.5",
     "jade": "~1.11.0",
+    "mongoose": "~4.13.0",
     "morgan": "~1.9.0",
     "express-validator": "^3.2.0",
     "passport": "^0.2.1",
