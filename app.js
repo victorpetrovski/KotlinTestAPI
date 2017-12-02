@@ -12,6 +12,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+//Auth variables
+var passport = require('passport');
+var BearerStrategy = require('passport-http-bearer').Strategy;
+var jwt = require('jsonwebtoken');
 
 var app = express();
 
@@ -40,6 +44,20 @@ mongoose.connect(config.db.MONGO_CONNECT_URL,{
 //setup routes
 const routes = require(APP_ROUTE_PATH);
 
+passport.use(new BearerStrategy(
+    function(accessToken, callback) {
+        jwt.verify(accessToken, config.jwtOptions.jwtSecret, function(err, user) {
+            if(err){
+                return callback(err);
+            }else{
+               // req.body.user = user;
+                return callback(null,user,{ scope: 'all' });
+            }
+        });
+    }
+));
+
+app.use('/api/v1/*', passport.authenticate('bearer', { session: false }));
 app.use('/', routes);
 
 // catch 404 and forward to error handler
